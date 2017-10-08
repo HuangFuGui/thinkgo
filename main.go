@@ -3,19 +3,19 @@ package main
 import (
 	"net/http"
 	"log"
-	"thinkgo/router"
+	"thinkgo/access"
 	_ "thinkgo/controller"
 )
 
 
 func main(){
-	http.HandleFunc("/", router.HttpRouter)
+	//接入http
+	http.HandleFunc("/", access.HttpAccessor)
 	err := http.ListenAndServe(":9090", nil)
 	if err != nil {
-		log.Fatal("main.go main() err := http.ListenAndServe() error")
+		log.Fatalf("main.go main() err := http.ListenAndServe() error => %v\n", err)
 	}
 }
-
 
 /*
 export GOROOT=/usr/local/go/

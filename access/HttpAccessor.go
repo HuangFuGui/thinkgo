@@ -1,10 +1,10 @@
-//路由模块，负责路由http分发请求至相应controller/action
-package router
+//http接入层，负责接入http并路由分发请求至相应controller/action
+package access
 
 import (
 	"net/http"
 	"reflect"
-	"thinkgo/common"
+	"thinkgo/utils"
 )
 
 var Routermap map[string]interface{} = make(map[string]interface{})
@@ -15,7 +15,7 @@ func RegisterController(i interface{}) {
 	Routermap[ctl] = value
 }
 
-func HttpRouter(w http.ResponseWriter, r *http.Request){
+func HttpAccessor(w http.ResponseWriter, r *http.Request){
 	r.ParseForm()
 	url := r.URL.Path
 
@@ -31,7 +31,7 @@ func HttpRouter(w http.ResponseWriter, r *http.Request){
 	//}
 
 	//方式二：反射
-	ctl, action := common.Com.CtlAction(url)
+	ctl, action := utils.CtlAction(url)
 	args := make([]reflect.Value, 2)
 	args[0] = reflect.ValueOf(w)
 	args[1] = reflect.ValueOf(r)
